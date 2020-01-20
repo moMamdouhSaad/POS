@@ -27,7 +27,6 @@ mongoose.set("useFindAndModify", false);
 
 //#endregion
 
-
 // #region Midllewares
 // app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
@@ -38,7 +37,6 @@ app.use((req, res, next) => {
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type,Accept,authorization"
     );
-  
     res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
     res.setHeader(
       "Access-Control-Allow-Headers",
@@ -48,14 +46,12 @@ app.use((req, res, next) => {
   });
 // #endregion
 
-
 // #region routes
 //TODO : TEST BACKEND SERVICE
-
 app.use("/api/product", require("./routes/product.ts"));
 // #endregion
 
-
-
+// #region Server Listen
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`Listening on port ${port}...`));
+// #endregion
