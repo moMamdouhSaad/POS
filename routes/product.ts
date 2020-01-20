@@ -7,7 +7,6 @@ const productRouter = productExpress.Router();
 
 // #region Routes
 
-
 productRouter.post("/",async(req,res)=>{ // new product
     res.send("product post api work good")
 })
@@ -27,7 +26,6 @@ productRouter.patch("/:id",async(req,res)=>{ // edit one product
 productRouter.delete("/:id",async(req,res)=>{ // delete one product
     res.send(req.params["id"] + "delete product")
 })
-
 
 // #endregion
 

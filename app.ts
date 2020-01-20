@@ -3,21 +3,56 @@
 const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
+var bodyParser = require("body-parser");
 // #endregion
+
+//#region DB CONNECTION
+var mongoose = require("mongoose");
+var connectioString =
+  "mongodb+srv://admin:paapyAdmin@janssen-ivvaz.mongodb.net/test?retryWrites=true&w=majority";
+mongoose
+  .connect(connectioString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "POS"
+  })
+  .then(() => {
+    console.log("connected");
+  })
+  .catch((err) => {
+      console.log
+    console.log("not connected");
+  });
+mongoose.set("useFindAndModify", false);
+
+//#endregion
 
 
 // #region Midllewares
-
+// app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type,Accept,authorization"
+    );
+  
+    res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Access-Control-Allow-Headers, authtoken, X-Requested-With"
+    );
+    next();
+  });
 // #endregion
 
 
 // #region routes
+//TODO : TEST BACKEND SERVICE
 
-app.get('/test',async(req,res)=>{
-    res.send("tmam")
-})
 app.use("/api/product", require("./routes/product.ts"));
-
 // #endregion
 
 
