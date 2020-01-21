@@ -29,6 +29,7 @@ mongoose.set("useFindAndModify", false);
 
 // #region Midllewares
 // app.use(express.static(__dirname + "/public"));
+//check for headers request security
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use((req, res, next) => {
