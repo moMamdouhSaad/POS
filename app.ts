@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 // #region routes
 //TODO : TEST BACKEND SERVICE
 app.use("/api/product", require("./routes/product.ts"));
+app.use("/api/category", require("./routes/category.ts"));
 // #endregion
 
 // #region Server Listen

@@ -100,7 +100,6 @@ productRouter.delete("/:id",async(req,res)=>{ // delete one product
         return res.status(200).json({responseMsg:"Product deleted unsuccessfully",success:false,response:err});
     }
 })
-
 // #endregion
 
 module.exports = productRouter;
