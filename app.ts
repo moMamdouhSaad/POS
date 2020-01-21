@@ -10,7 +10,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var connectioString =
   "mongodb+srv://admin:paapyAdmin@janssen-ivvaz.mongodb.net/test?retryWrites=true&w=majority";
-mongoose
+const connection = mongoose
   .connect(connectioString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -24,7 +24,6 @@ mongoose
     console.log("not connected");
   });
 mongoose.set("useFindAndModify", false);
-
 //#endregion
 
 // #region Midllewares
@@ -51,6 +50,7 @@ app.use((req, res, next) => {
 //TODO : TEST BACKEND SERVICE
 app.use("/api/product", require("./routes/product.ts"));
 app.use("/api/category", require("./routes/category.ts"));
+app.use("/api/table", require("./routes/table.ts"));
 // #endregion
 
 // #region Server Listen
