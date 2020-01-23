@@ -11,7 +11,7 @@ const newcategory = [
     check("category_name", "category_name is required")
     .not()
     .isEmpty().withMessage("category_name must not be empty")
-    .isLength({ min: 2,max:25 }).withMessage("category_name long min is : 2 chars max is : 25 chars"),
+    .isLength({ min: 2,max:25 }).withMessage("category_name long min is : 2 chars max is : 25 chars")
     // .isAlpha().withMessage("category_name must be string"),
 ]
 
