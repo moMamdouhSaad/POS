@@ -11,7 +11,7 @@
       check("table_status", "table_status is required")
       .not()
       .isEmpty().withMessage("category_name must not be empty")
-                            ]
+                               ]
   // #endregion
     
   // #region Routes
@@ -58,7 +58,7 @@
               }catch(err){
                   return res.status(200).json({responseMsg:"Table Status changed unsuccessfully",success:false,response:err});
               }
-           })        
+            })        
     // #endregion
     module.exports = tableRouter;
     })();

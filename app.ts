@@ -44,13 +44,15 @@ app.use((req, res, next) => {
     );
     next();
   });
-// #endregion
+  // #endregion
 
 // #region routes
 //TODO : TEST BACKEND SERVICE
 app.use("/api/product", require("./routes/product.ts"));
 app.use("/api/category", require("./routes/category.ts"));
 app.use("/api/table", require("./routes/table.ts"));
+app.use("/api/taxrate", require("./routes/taxrate.ts"));
+
 // #endregion
 
 // #region Server Listen
