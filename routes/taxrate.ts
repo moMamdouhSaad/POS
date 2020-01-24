@@ -5,7 +5,6 @@
     var Taxrate = require("../models/taxrate.ts");
     const { check, validationResult } = require('express-validator');
     // #endregion
-    
     // #region Validators deceleration
     const newTaxrate = [
         check("tax_rate", "taxrate is required")
@@ -15,7 +14,6 @@
         // .isAlpha().withMessage("category_name must be string"),
                       ]
     // #endregion
-    
     // #region Routes
     taxrateRouter.post("/",newTaxrate,async(req,res)=>{ // new taxrate
         const errors = validationResult(req);
@@ -32,7 +30,7 @@
                 return res.status(400).json({err:err,msg:"Error occured while add a taxrate",success:false});
               }
             })
-    taxrateRouter.get("/",async(req,res)=>{ // get all taxrates
+    taxrateRouter.get("/",async(req,res)=>{ // get all taxrates only for test
         try {
             const allcategorys = await Taxrate.find({});
             return res.status(200).json({response:allcategorys,success:true});
@@ -40,7 +38,7 @@
             return res.status(400).json({response:err,success:false,responseMsg:"Error occured while retreive all taxrated "});
           }
     })
-    taxrateRouter.get("/currentTaxRate",async(req,res)=>{ // get one category by id
+    taxrateRouter.get("/currentTaxRate",async(req,res)=>{ // get current taxRate
         try {
             const currentTaxRate = await Taxrate.findOne().sort({"createdAt":-1}).limit(1)
             return res.status(200).json({response:currentTaxRate,success:true});
