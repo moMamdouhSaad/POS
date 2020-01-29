@@ -8,10 +8,27 @@
     
     // #region Validators deceleration
     const newbill = [
-        check("bill_name", "bill_name is required")
+        check("bill_type", "bill_type is required")
         .not()
-        .isEmpty().withMessage("bill_name must not be empty")
-        .isLength({ min: 2,max:25 }).withMessage("bill_name long min is : 2 chars max is : 25 chars")
+        .isEmpty().withMessage("bill_type must not be empty")
+        .isLength({ min: 2,max:25 }).withMessage("bill_type long min is : 2 chars max is : 25 chars"),
+        check("lines").not()
+        .isEmpty().withMessage("lines must not be empty"),
+        check("subtotal", "subtotal is required")
+        .not()
+        .isEmpty().withMessage("subtotal must not be empty")
+        .isNumeric().withMessage("subtotal must be numbers")
+        .isLength({ min: 1,max:25 }).withMessage("subtotal long min is : 1 chars max is : 25 chars"),
+        check("total", "total is required")
+        .not()
+        .isEmpty().withMessage("total must not be empty")
+        .isNumeric().withMessage("total must be numbers")
+        .isLength({ min: 1,max:25 }).withMessage("total long min is : 1 chars max is : 25 chars"),
+        check("tax_rate", "tax_rate is required")
+        .not()
+        .isEmpty().withMessage("tax_rate must not be empty")
+        .isNumeric().withMessage("tax_rate must be numbers")
+        .isLength({ min: 1,max:3 }).withMessage("tax_rate long min is : 1 chars max is : 3 chars"),
         // .isAlpha().withMessage("bill_name must be string"),
     ]
     
@@ -21,7 +38,7 @@
           check("bill_name").exists() 
           .not()
           .isEmpty().withMessage("bill_name must not be empty")
-          .isLength({ min: 2,max:25 }).withMessage("bill_name long min is : 2 chars max is : 25 chars")
+          .isLength({ min: 2,max:25 }).withMessage("bill_name long min is : 2 chars max is : 25 chars"),
           //  .isAlpha().withMessage("bill_name must be string")
          ]
     ]
@@ -29,7 +46,7 @@
     // #endregion
     
     // #region Routes
-    billRouter.post("/",async(req,res)=>{ // new Bill
+    billRouter.post("/",newbill,async(req,res)=>{ // new Bill
         const errors = validationResult(req);
         try {
         if (!errors.isEmpty()){
@@ -46,7 +63,7 @@
             })
     billRouter.get("/",async(req,res)=>{ // get all bills
         try {
-            const allbills = await Bill.find({}).populate('products')
+            const allbills = await Bill.find({}).populate('lines.product')
             
             return res.status(200).json({response:allbills,success:true});
           } catch (err) {
@@ -61,7 +78,7 @@
             return res.status(400).json({response:err,success:false,responseMsg:"Error occured while retreive one Bill with id "});
           }    
     })
-    billRouter.patch("/:id",updatebill,async(req,res)=>{ // edit one Bill
+    billRouter.patch("/:id",newbill,async(req,res)=>{ // edit one Bill
         try{
             const errors = validationResult(req);
             if (!errors.isEmpty()){
