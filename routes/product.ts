@@ -14,6 +14,10 @@ const newProduct = [
     .isLength({ min: 2,max:25 }).withMessage("product_name long min is : 2 chars max is : 25 chars"),
     // .isAlpha().withMessage("product_name must be string"),
 
+    check("category_id","category_id is requred").not()
+    .isEmpty().withMessage("category_id must not be empty"),
+
+
     check("product_price", "product_price is required")
     .not()
     .isEmpty().withMessage("product_price must not be empty")
@@ -30,6 +34,11 @@ const updateProduct = oneOf(
       .isLength({ min: 2,max:25 }).withMessage("product_name long min is : 2 chars max is : 25 chars")
     //   .isAlpha().withMessage("product_name must be string")
      ],
+     [
+        check("category_id").exists() 
+        .not()
+        .isEmpty().withMessage("category_id must not be empty")
+       ],
       [
       check("product_price").exists()
       .not()
