@@ -70,9 +70,9 @@
             return res.status(400).json({response:err,success:false,responseMsg:"Error occured while retreive all bills "});
           }
     })
-    billRouter.get("/:id",async(req,res)=>{ // get one Bill by id
+    billRouter.get("/:table_no",async(req,res)=>{ // get one Bill by id
         try {
-            const returnedBill = await Bill.find({ _id: req.params.id });
+            const returnedBill = await Bill.find({ table_number: req.params.table_no }).populate('lines.product')
             return res.status(200).json({response:returnedBill,success:true});
           } catch (err) {
             return res.status(400).json({response:err,success:false,responseMsg:"Error occured while retreive one Bill with id "});
