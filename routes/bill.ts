@@ -47,6 +47,7 @@
     
     // #region Routes
     billRouter.post("/",newbill,async(req,res)=>{ // new Bill
+        console.log(req.body)
         const errors = validationResult(req);
         try {
         if (!errors.isEmpty()){
@@ -54,10 +55,21 @@
                     errors: errors.array(),responseMsg:"Validation Error while add a new Bill",success:false
                 });
             }
-                const addedbill = await new Bill(req.body);
-                await addedbill.save();
+
+                const table_number = req.body.table_number;
+                const returnedBill = await Bill.findOne({ table_number:table_number,bill_status:"Stored" }) //TODO : optimization
+                if(returnedBill){
+                    const result = await Bill.updateOne({_id:returnedBill._id},req.body);
+                    console.log(result)
+                    }else{
+                    var addedbill = await new Bill(req.body);
+                    await addedbill.save();
+
+                    }
+
                 return res.status(200).json({ message: "Bill added successfully" , success:true});
               } catch (err) {
+                  console.log(err)
                 return res.status(400).json({err:err,msg:"Error occured while add a new Bill",success:false});
               }
             })
@@ -72,7 +84,8 @@
     })
     billRouter.get("/:table_no",async(req,res)=>{ // get one Bill by id
         try {
-            const returnedBill = await Bill.find({ table_number: req.params.table_no }).populate('lines.product')
+            const returnedBill = await Bill.find({ table_number: req.params.table_no,bill_status:"Stored" }).populate('lines.product')
+                console.log(returnedBill)
             return res.status(200).json({response:returnedBill,success:true});
           } catch (err) {
             return res.status(400).json({response:err,success:false,responseMsg:"Error occured while retreive one Bill with id "});

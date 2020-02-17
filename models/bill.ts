@@ -5,7 +5,7 @@ var billSchema = new Schema({
     serial_number: Number,
     table_number:Number, // only in dine-in type
     bill_type:{type:String,enum:["dine-in","delivery","takeaway"]},
-    bill_status:{ type: String, default: "Opened" ,enum:["Cashed","Opened","Printed"]},
+    bill_status:{ type: String, default: "Stored" ,enum:["Cashed","Stored","Printed"]},
     lines:
       {
       required:true,
