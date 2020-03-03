@@ -3,6 +3,7 @@
     const billExpress = require("express");
     const billRouter = billExpress.Router();
     var Bill = require("../models/Bill.ts");
+    var Table = require("../models/table.ts");
     const { check,oneOf, validationResult } = require('express-validator');
     // #endregion
     
@@ -47,7 +48,6 @@
     
     // #region Routes
     billRouter.post("/",newbill,async(req,res)=>{ // new Bill
-        console.log(req.body)
         const errors = validationResult(req);
         try {
         if (!errors.isEmpty()){
@@ -55,25 +55,29 @@
                     errors: errors.array(),responseMsg:"Validation Error while add a new Bill",success:false
                 });
             }
+                
 
                 const table_number = req.body.table_number;
+               console.log(req.body.bill_status)
                 const returnedBill = await Bill.findOne({ table_number:table_number,bill_status:"Stored" }) //TODO : optimization
+                //Cashed
+                //Stored
+                let table_status;
+                switch(req.body.bill_status){
+                    case 'Cashed':
+                     table_status = "Closed"   
+                    break;
+                    case 'Stored':
+                     table_status = "Opened"
+                    break;
+                }
+                await Table.updateOne({table_number:table_number},{table_status:table_status})
                 if(returnedBill){
-                    console.log('returnedBill')
-
-                    console.log(returnedBill)
-                    console.log('req.body')
-
-                    console.log(req.body)
-                    const result = await Bill.updateOne({_id:returnedBill._id},req.body)
-                    console.log('result.lines')
-                        if(result){
-                            console.log(result)
-                        }
-                    }else{
+                 await Bill.updateOne({_id:returnedBill._id},req.body)    
+                                 }
+                    else{
                     var addedbill = await new Bill(req.body);
                     await addedbill.save();
-
                     }
 
                 return res.status(200).json({ message: "Bill added successfully" , success:true});
@@ -94,8 +98,6 @@
     billRouter.get("/:table_no",async(req,res)=>{ // get one Bill by id
         try {
             const returnedBill = await Bill.findOne({ table_number: req.params.table_no,bill_status:"Stored" }).populate('lines.product')
-            console.log("table no")   
-            console.log(returnedBill)
             return res.status(200).json({response:returnedBill,success:true});
           } catch (err) {
             return res.status(400).json({response:err,success:false,responseMsg:"Error occured while retreive one Bill with id "});

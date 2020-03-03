@@ -53,6 +53,8 @@ app.use("/api/category", require("./routes/category.ts"));
 app.use("/api/table", require("./routes/table.ts"));
 app.use("/api/taxrate", require("./routes/taxrate.ts"));
 app.use("/api/bill", require("./routes/bill.ts"));
+app.use("/api/customer", require("./routes/customer.ts"));
+
 // #endregion
 
 // #region Server Listen
