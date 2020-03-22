@@ -18,13 +18,18 @@
     tableRouter.post("/",async(req,res)=>{ // new table
         const errors = validationResult(req);
         try {
-                const addedTable = await new Table(req.body);
-                await addedTable.save();
-                return res.status(200).json({ message: "table added successfully" , success:true});
+                console.log(req.body)
+                for(var i = 0; req.body.tablesAdded > i ; i++){
+                  const addedTable = await new Table(req.body);
+                  await addedTable.save();
+                }
+                return res.status(200).json({ message: "tables added successfully" , success:true});
               } catch (err) {
                 return res.status(400).json({err:err,msg:"Error occured while add a new table",success:false});
               }
             })
+
+
     tableRouter.get("/",async(req,res)=>{ // get all tables
                 try {
                     const allTables = await Table.find({});
