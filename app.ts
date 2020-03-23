@@ -54,6 +54,7 @@ app.use("/api/table", require("./routes/table.ts"));
 app.use("/api/taxrate", require("./routes/taxrate.ts"));
 app.use("/api/bill", require("./routes/bill.ts"));
 app.use("/api/customer", require("./routes/customer.ts"));
+app.use("/api/user", require("./routes/user.ts"));
 
 // #endregion
 
