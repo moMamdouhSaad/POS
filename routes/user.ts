@@ -8,15 +8,15 @@
     
     // #region Validators deceleration
     const newUser = [
-        check("user_name", "user_name is required")
+        check("username", "username is required")
         .not()
         .isEmpty().withMessage("user_name must not be empty")
         .isLength({ min: 2,max:25 }).withMessage("user_name long min is : 2 chars max is : 25 chars"),
-        check("user_password", "user_password is required")
+        check("password", "password is required")
         .not()
         .isEmpty().withMessage("user_password must not be empty")
         .isLength({ min: 5,max:25 }).withMessage("user_password long min is : 5 chars max is : 25 chars"),
-        check("user_role", "user_role is required")
+        check("role", "role is required")
         .not()
         .isEmpty().withMessage("user_role must not be empty")
         .isNumeric().withMessage('user_role must be number')
