@@ -3,7 +3,7 @@
 const productExpress = require("express");
 const productRouter = productExpress.Router();
 var Product = require("../models/product.ts");
-const { check,oneOf, validationResult } = require('express-validator');
+const { check, oneOf, validationResult } = require('express-validator');
 // #endregion
 
 // #region Validators deceleration
