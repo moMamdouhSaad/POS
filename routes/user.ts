@@ -3,6 +3,7 @@
     const userExpress = require("express");
     const userRouter = userExpress.Router();
     var User = require("../models/user.ts");
+    const bcrypt = require("bcrypt");
     const { check, oneOf, validationResult } = require('express-validator');
     // #endregion
     
@@ -36,15 +37,19 @@
     // #endregion
     
     // #region Routes
-    userRouter.post("/", newUser, async(req, res)=>{ // new customer
+    userRouter.post("/", newUser, async(req, res)=>{ // new user
         const errors = validationResult(req);
         try {
         if (!errors.isEmpty()){
                 return res.status(400).json({
-                    errors: errors.array(), responseMsg:"Validation Error while add a new customer",success:false
+                    errors: errors.array(), responseMsg:"Validation Error while add a new user",success:false
                 });
             }
                 const addedUser = await new User(req.body);
+                // console.log(addedUser.password)
+                const salt = await bcrypt.genSalt(20);
+                addedUser.password = await bcrypt.hash(addedUser.password, salt);
+                console.log("saved user")
                 await addedUser.save();
                 return res.status(200).json({ message: "user added successfully", success:true});
               } catch (err) {
