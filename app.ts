@@ -57,6 +57,7 @@ app.use((req, res, next) => {
 //Authenticate Route
 
 app.post('/auth',  async (req, res, next) => {
+  console.log(req.body)
   const user = await User.findOne({'username' : req.body.username});
   if(user){
     bcrypt.compare(req.body.password, user.password, function (err, result) {
@@ -87,6 +88,6 @@ app.use("/api/user", require("./routes/user.ts"));
 // #endregion
 
 // #region Server Listen
-const port = process.env.PORT || 5000;
-server.listen(port, () => console.log(`Listening on port ${port}...`));
+const port = process.env.PORT || 80;
+server.listen(port ,() => console.log(`Listening on port ${port}...`));
 // #endregion

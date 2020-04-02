@@ -37,7 +37,7 @@
     // #endregion
     
     // #region Routes
-    userRouter.post("/", newUser, async(req, res)=>{ // new user
+    userRouter.post("/register", newUser, async(req, res)=>{ // new user
         const errors = validationResult(req);
         try {
         if (!errors.isEmpty()){
@@ -49,7 +49,6 @@
                 // console.log(addedUser.password)
                 const salt = await bcrypt.genSalt(20);
                 addedUser.password = await bcrypt.hash(addedUser.password, salt);
-                console.log("saved user")
                 await addedUser.save();
                 return res.status(200).json({ message: "user added successfully", success:true});
               } catch (err) {
